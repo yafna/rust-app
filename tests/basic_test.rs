@@ -1,5 +1,5 @@
 #[cfg(test)]
-mod basic_test{
+mod basic_test {
     #[test]
     fn it_works() {
         println!("Hello, test!");
