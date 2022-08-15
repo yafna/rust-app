@@ -9,4 +9,6 @@ to learn rust do the following app:
 * save progress (optional)
 
 Load pdf with schema (required - read / load image / parse schema from multiple pages into array of colors).
-* attempt#1 - pdf-rs
+* attempt#1 - pdf-rs. 
+** Result - seems that not working well with images. at all.
+* attempt#2 - image. Load image directly and do simple parsing (without pdf to store them)
