@@ -6,8 +6,8 @@ use ndarray::Array2;
 use rusqlite::types::Type;
 
 pub struct Legend {
-    colour: Rgb<u8>,
-    grid: Vec<Vec<i64>>,
+    pub colour: Rgb<u8>,
+    pub grid: Vec<Vec<i64>>,
 }
 
 pub struct Cross {
@@ -20,7 +20,7 @@ pub struct Cross {
 
 pub fn parse_square(img: &DynamicImage, legends: &Vec<Legend>, i: u32, j: u32) -> Cross {
     let size = legends.len();
-    let mut deltas =vec![0; size];
+    let mut deltas = vec![0; size];
     for xx in 0..19 {
         for yy in 0..29 {
             let mut line: String = "".to_owned();
@@ -28,7 +28,7 @@ pub fn parse_square(img: &DynamicImage, legends: &Vec<Legend>, i: u32, j: u32) -
                 line.push_str(&item.to_string().to_owned());
             }
 
-            for del_ind in 0..size{
+            for del_ind in 0..size {
                 let item = (legends[del_ind].grid[xx as usize][yy as usize] - line.parse::<i64>().unwrap()).abs();
                 deltas[del_ind] = deltas[del_ind] + (item as usize);
             }
@@ -101,13 +101,13 @@ fn test_legend() {
 
 #[test]
 fn test_opening() {
-    open_image("files/part1.png"); // not panicking - good
+    open_image("files/part11.png"); // not panicking - good
 }
 
 #[test]
 fn test_parse_legend() {
     let legends = parse_legend(&open_image("files/legend.png"));
     assert_eq!(17, legends.len());
-    let cross = parse_square(&open_image("files/part1.png"), &legends, 1, 1);
+    let cross = parse_square(&open_image("files/part11.png"), &legends, 1, 1);
     assert_eq!(0, cross.index);
 }
