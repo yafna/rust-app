@@ -8,6 +8,14 @@ pub struct Square {
     y: u32,
 }
 
+pub struct ColoredLegend {
+    pub id: i64,
+    pub ind_value: i64,
+    pub r: u32,
+    pub g: u32,
+    pub b: u32,
+}
+
 pub fn connect() -> Connection {
     Connection::open("n_data.db").unwrap()
 }
@@ -78,6 +86,25 @@ pub fn insert_square_data(conn: &Connection, ind_value: usize, x: u32, y: u32) -
         (&ind_value, &x, &y),
     )?;
     Ok(())
+}
+
+pub fn get_colored_legend(conn: &Connection) -> Result<Vec<ColoredLegend>> {
+    let mut res: Vec<ColoredLegend> = Vec::new();
+    let mut stmt = conn.prepare("SELECT id, ind_value, r, g, b FROM legend")?;
+    let item_iter = stmt.query_map([], |row| {
+        Ok(ColoredLegend {
+            id: row.get(0)?,
+            ind_value: row.get(1)?,
+            r: row.get(2)?,
+            g: row.get(3)?,
+            b: row.get(4)?,
+        })
+    })?;
+
+    for item in item_iter {
+        res.push(item.unwrap());
+    };
+    Ok(res)
 }
 
 pub fn get_squares(conn: &Connection) -> Result<Vec<Square>> {
